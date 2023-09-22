@@ -1,0 +1,17 @@
+﻿syntax: glob
+
+*target/
+
+*static/
+*public/
+*static/*
+
+/s3
+
+logs/
+.classpath
+.settings/
+.project
+.idea
+*.iml
+*.csv
