@@ -1,0 +1,12 @@
+syntax: glob
+.idea
+*.iml
+*static/
+*.js
+*.css
+*.html
+*.log
+
+*target/
+temp/
+rebel.xml
