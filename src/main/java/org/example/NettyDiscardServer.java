@@ -8,6 +8,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.ReferenceCountUtil;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+
 //…
 public class NettyDiscardServer {
     private final int serverPort;
@@ -29,7 +32,7 @@ public class NettyDiscardServer {
             //3. 设置监听端口
             b.localAddress(serverPort);
             //4. 设置通道的参数
-            b.option(ChannelOption.SO_KEEPALIVE, true);
+//            b.option(ChannelOption.SO_KEEPALIVE, true);
             //5. 装配子通道流水线
             b.childHandler(new ChannelInitializer<SocketChannel>() {
                 //有连接到达时会创建一个通道
@@ -61,12 +64,15 @@ public class NettyDiscardServer {
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             ByteBuf in = (ByteBuf) msg;
+            int i1 = in.readableBytes();
+            byte[] bytes = new byte[i1];
+            int i = 0;
             try {
                 while (in.isReadable()) {
-                    System.out.println((char) in.readByte());
+                    bytes[i++] = in.readByte();
                 }
-
-                System.out.println();
+                String s = new String(bytes, StandardCharsets.UTF_8);
+                System.out.println(s);
             } finally {
                 ReferenceCountUtil.release(msg);
             }
